@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Settings(),
         ),
         ChangeNotifierProxyProvider<Settings, Connect>(
-          create: (ctx) => Connect(Const.DEFAULT_ADDRES),
+          create: (ctx) => Connect(Const.DEFAULT_ADDRESS),
           update: (ctx, settings, connect) => Connect(settings.address),
         ),
       ],

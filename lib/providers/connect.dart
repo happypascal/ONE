@@ -3,7 +3,7 @@ import 'package:modbus/modbus.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
 
 class Connect with ChangeNotifier {
-  String _address = Const.DEFAULT_ADDRES;
+  String _address = Const.DEFAULT_ADDRESS;
   ModbusClient? _client;
   int _port = 5022; //TODO change it to 502 for release version
   bool _isConnecting = false;
