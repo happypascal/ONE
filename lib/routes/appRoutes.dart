@@ -5,8 +5,8 @@ class AppRoutes {
   static const HOME_SCREEN = 'homescreen';
   static const SETTINGS_SCREEN = 'settings';
 
-  static initialRoute() {
-    return HOME_SCREEN;
+  static initialRoute(String screen) {
+    return screen;
   }
 
   static getRoutes() {

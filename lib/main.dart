@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'providers/settings.dart';
 import 'providers/connect.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
+import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,14 +23,57 @@ class MyApp extends StatelessWidget {
           update: (ctx, settings, connect) => Connect(settings.address),
         ),
       ],
-      child: MaterialApp(
-        title: 'One by Favre',
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-        ),
-        routes: AppRoutes.getRoutes(),
-        initialRoute: AppRoutes.initialRoute(),
+      child: LoadSettings(),
+    );
+  }
+}
+
+class LoadSettings extends StatefulWidget {
+  @override
+  _LoadSettingsState createState() => _LoadSettingsState();
+}
+
+class _LoadSettingsState extends State<LoadSettings> {
+  var _loadSettings;
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings =
+        Provider.of<Settings>(context, listen: false).loadSettings();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String?>(
+      future: _loadSettings,
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CustomProgressIndicator();
+        }
+        if (snapshot.data != null) {
+          return App(AppRoutes.SETTINGS_SCREEN);
+        }
+
+        return App(AppRoutes.HOME_SCREEN);
+      },
+    );
+  }
+}
+
+class App extends StatelessWidget {
+  final String initialScreen;
+
+  App(this.initialScreen);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'One by Favre',
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
       ),
+      routes: AppRoutes.getRoutes(),
+      initialRoute: AppRoutes.initialRoute(initialScreen),
     );
   }
 }
