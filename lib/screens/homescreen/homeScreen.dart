@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:humidor_one_by_favre/screens/homescreen/widgets/customAppBar.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/connect.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
@@ -10,31 +11,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var _connect;
-
-  initState() {
-    super.initState();
-    _connect = Provider.of<Connect>(context, listen: false).connect();
-  }
-
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<String?>(
-        future: _connect,
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CustomProgressIndicator();
-          }
+    return WillPopScope(
+      onWillPop: () async {
+        //TODO implement dialog ask exit app
+        return true;
+      },
+      child: Container(
+        child: Scaffold(
+          body: CustomWrapper(
+            child: Column(
+              children: [
+                CustomAppBar(),
+                SizedBox(height: 30.0),
+                FutureBuilder<String?>(
+                  future:
+                      Provider.of<Connect>(context, listen: false).connect(),
+                  builder: (ctx, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CustomProgressIndicator();
+                    }
 
-          if (snapshot.hasError) {
-            return ConnectionError(snapshot.error.toString());
-          }
-          if (snapshot.data != null) {
-            return ConnectionError(snapshot.data);
-          }
+                    if (snapshot.hasError) {
+                      return ConnectionError(snapshot.error.toString());
+                    }
+                    if (snapshot.data != null) {
+                      return ConnectionError(snapshot.data);
+                    }
 
-          return Center(child: Text('Connected'));
-        },
+                    return Center(child: Text('Connected'));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
