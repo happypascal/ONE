@@ -3,6 +3,7 @@ import 'routes/appRoutes.dart';
 import 'package:provider/provider.dart';
 import 'providers/settings.dart';
 import 'providers/connect.dart';
+import 'providers/deviceData.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 
@@ -21,6 +22,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Settings, Connect>(
           create: (ctx) => Connect(Const.DEFAULT_ADDRESS),
           update: (ctx, settings, connect) => Connect(settings.address),
+        ),
+        ChangeNotifierProxyProvider<Connect, DeviceData>(
+          create: (ctx) => DeviceData(null),
+          update: (ctx, connect, deviceData) => DeviceData(connect.client),
         ),
       ],
       child: LoadSettings(),
