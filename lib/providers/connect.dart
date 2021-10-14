@@ -12,6 +12,7 @@ class Connect with ChangeNotifier {
   Connect(this._address);
 
   String get address => this._address;
+  ModbusClient? get client => this._client;
   bool get isConnecting => this._isConnecting;
   bool get isConnected => this._isConnected;
 
@@ -33,10 +34,10 @@ class Connect with ChangeNotifier {
       });
       if (!timeOutError) {
         _isConnected = true;
-
+        notifyListeners();
         return res;
       } else {
-        return 'Connection timeout error, please try again';
+        return 'Connection timeout error, please check address in the settings and try again';
       }
     } catch (e) {
       print('debug connect error: $e ');
