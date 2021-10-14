@@ -21,7 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return true;
       },
       child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/background.png',
+              ),
+              fit: BoxFit.cover),
+        ),
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           body: CustomWrapper(
             child: Column(
               children: [
