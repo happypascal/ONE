@@ -23,3 +23,29 @@ class CustomWrapper extends StatelessWidget {
     );
   }
 }
+
+class Indicator extends StatelessWidget {
+  final List<Widget> children;
+  final String title;
+  Indicator({
+    required this.title,
+    required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 30.0,
+          child: Text(title),
+        ),
+        Container(
+          child: Column(
+            children: children,
+          ),
+        )
+      ],
+    );
+  }
+}

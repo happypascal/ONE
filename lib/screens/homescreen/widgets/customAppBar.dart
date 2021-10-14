@@ -31,6 +31,8 @@ class CustomAppBar extends StatelessWidget {
               'assets/logo.png',
             ),
           ),
+
+          //TODO check or remove later
           // LayoutBuilder(
           //   builder: (context, constraints) {
           //     print('debug constraints.maxWidth: ${constraints.maxWidth}');
