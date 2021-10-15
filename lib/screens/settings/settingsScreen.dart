@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
-import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/settings.dart';
+import 'package:humidor_one_by_favre/providers/deviceData.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -40,6 +40,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   _saveForm() {
     var isValid = _key.currentState!.validate();
     if (isValid) {
+      //to stop already reading data in case exisiting connection
+      Provider.of<DeviceData>(context, listen: false).stopTimer();
       _key.currentState!.save();
     }
   }
@@ -68,6 +70,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         controller: _addrCtrl,
                         keyboardType: TextInputType.number,
                         onSaved: (val) async {
+                          //to avoid
+
                           await Provider.of<Settings>(context, listen: false)
                               .saveAddress(_addrCtrl.text);
                           Navigator.of(context)
