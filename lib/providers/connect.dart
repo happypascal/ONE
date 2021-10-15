@@ -17,6 +17,7 @@ class Connect with ChangeNotifier {
   bool get isConnected => this._isConnected;
 
   Future<String?> connect() async {
+    print('debug start connect');
     _client = createTcpClient(
       _address,
       port: _port,
