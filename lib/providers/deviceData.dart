@@ -9,10 +9,13 @@ class DeviceData with ChangeNotifier {
   Duration _timerPeriod = Duration(milliseconds: 500);
 
   bool _openCloseState = false;
+  String _error = '';
 
   DeviceData(this._client);
 
   bool get openCloseState => this._openCloseState;
+  ModbusClient? get client => this._client;
+  String get error => this._error;
 
   Future<String?> readData() async {
     if (_timer != null && _timer!.isActive) {
@@ -24,6 +27,8 @@ class DeviceData with ChangeNotifier {
         print('debug Device is not connected');
         return;
       }
+
+      _error = '';
 
       try {
         int openCloseState =
@@ -37,6 +42,7 @@ class DeviceData with ChangeNotifier {
         print('debug openCloseState: $openCloseState');
       } catch (e) {
         _client = null;
+        _error = e.toString();
         print('debug read OPEN_CLOSE_STATE error: $e');
       }
 
@@ -59,7 +65,6 @@ class DeviceData with ChangeNotifier {
         res = 'Write command to $coilAddress failed';
       }
     } catch (e) {
-      _client = null;
       print('debug error on write to coilAddress: $e');
       res = e.toString();
     }
