@@ -1,5 +1,5 @@
 class Const {
-  static const DEFAULT_ADDRESS = '192.168.0.129';
+  static const DEFAULT_ADDRESS = '192.168.8.1';
 
   //Coils
   static const int OPEN_CLOSE_SET = 134;

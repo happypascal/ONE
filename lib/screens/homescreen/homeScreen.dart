@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/screens/homescreen/widgets/customAppBar.dart';
-import 'package:humidor_one_by_favre/screens/homescreen/widgets/temperature.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/connect.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';

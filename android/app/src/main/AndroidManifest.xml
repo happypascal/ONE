@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.humidor_one_by_favre">
+    package="com.onefavre.humidor_one_by_favre">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="humidor_one_by_favre"
+        android:label="ONE by Favre"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
