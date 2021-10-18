@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
+import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/settings.dart';
 import 'package:humidor_one_by_favre/providers/deviceData.dart';
@@ -76,6 +77,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               .saveAddress(_addrCtrl.text);
                           Navigator.of(context)
                               .pushReplacementNamed(AppRoutes.HOME_SCREEN);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      Text('Open-close button coil address'),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        onSaved: (val) {
+                          if (val != null) {
+                            Const.OPEN_CLOSE_SET = int.tryParse(val) ?? 133;
+                          }
                         },
                       )
                     ],

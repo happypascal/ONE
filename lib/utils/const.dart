@@ -2,7 +2,7 @@ class Const {
   static const DEFAULT_ADDRESS = '192.168.8.1';
 
   //Coils
-  static const int OPEN_CLOSE_SET = 134;
+  static int OPEN_CLOSE_SET = 133;
   static const int HUM_MINUS = 9;
   static const int HUM_PLUS = 10;
   static const int TEMP_MINUS = 36;
