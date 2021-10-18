@@ -34,6 +34,7 @@ class DeviceData with ChangeNotifier {
         int openCloseState =
             (await _client!.readHoldingRegisters(Const.OPEN_CLOSE_STATE, 1))
                 .first;
+
         if (openCloseState == 0) {
           _openCloseState = false;
         } else {
