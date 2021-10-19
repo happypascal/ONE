@@ -15,9 +15,9 @@ class OpenCloseButton extends StatelessWidget {
             height: 80.0,
             width: 80.0,
           ),
-          onTap: () {
+          onTap: () async {
             Provider.of<DeviceData>(context, listen: false)
-                .writeData(Const.OPEN_CLOSE_SET, data: !openCloseState);
+                .writeData(Const.OPEN_CLOSE_SET);
           },
         )
       ],

@@ -7,6 +7,7 @@ class DeviceData with ChangeNotifier {
   ModbusClient? _client;
   Timer? _timer;
   Duration _timerPeriod = Duration(milliseconds: 500);
+  Duration _writeTimeout = Duration(milliseconds: 500);
 
   bool _openCloseState = false;
   String _error = '';
@@ -51,19 +52,36 @@ class DeviceData with ChangeNotifier {
     });
   }
 
-  Future<String?> writeData(int coilAddress, {bool data = true}) async {
+  Future<String?> writeData(int coilAddress) async {
     if (_client == null) {
       return 'Device is not connected';
     }
 
     var res;
     try {
-      var resp = await _client!.writeSingleCoil(coilAddress, data);
+      ///to open or close send true to coil (button is pressed)
+      var pressResp = await _client!.writeSingleCoil(coilAddress, true);
+      //     .timeout(_writeTimeout, onTimeout: () {
+      //   res = 'Release button with coilAddress $coilAddress failed';
+      //   return true;
+      // });
 
-      if (resp is bool) {
-        print('debug write resp: $resp');
+      if (pressResp is bool) {
+        print('debug write pressResp: $pressResp');
+
+        ///set coil to default state false (button is pressed)
+        var releaseResp = await _client!.writeSingleCoil(coilAddress, false);
+        //     .timeout(_writeTimeout, onTimeout: () {
+        //   res = 'Release button with coilAddress $coilAddress failed';
+        //   return true;
+        // });
+        if (releaseResp is bool) {
+          print('debug write releaseResp: $releaseResp');
+        } else {
+          res = 'Release button with coilAddress $coilAddress failed';
+        }
       } else {
-        res = 'Write command to $coilAddress failed';
+        res = 'Press button with coilAddress $coilAddress failed';
       }
     } catch (e) {
       print('debug error on write to coilAddress: $e');
