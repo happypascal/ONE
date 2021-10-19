@@ -79,16 +79,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               .pushReplacementNamed(AppRoutes.HOME_SCREEN);
                         },
                       ),
-                      SizedBox(height: 20.0),
-                      Text('Open-close button coil address'),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        onSaved: (val) {
-                          if (val != null) {
-                            Const.OPEN_CLOSE_SET = int.tryParse(val) ?? 133;
-                          }
-                        },
-                      )
+
+                      //TODO remove this formfield for release. For test coil addreses
+
+                      // SizedBox(height: 20.0),
+                      // Text('Open-close button coil address'),
+                      // TextFormField(
+                      //   keyboardType: TextInputType.number,
+                      //   onSaved: (val) {
+                      //     if (val != null) {
+                      //       Const.OPEN_CLOSE_SET = int.tryParse(val) ?? 133;
+                      //     }
+                      //   },
+                      // )
                     ],
                   ),
                 ),
