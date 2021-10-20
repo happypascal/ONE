@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget {
               Navigator.of(context)
                   .pushReplacementNamed(AppRoutes.SETTINGS_SCREEN);
             },
-            child: Image.asset('assets/button setup.png'),
+            child: Image.asset('assets/setup.png'),
           ),
         ),
         Flexible(
