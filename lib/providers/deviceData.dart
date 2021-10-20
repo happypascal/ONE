@@ -59,22 +59,15 @@ class DeviceData with ChangeNotifier {
 
     var res;
     try {
-      ///to open or close send true to coil (button is pressed)
+      ///to open or close set coil to true (button is pressed)
       var pressResp = await _client!.writeSingleCoil(coilAddress, true);
-      //     .timeout(_writeTimeout, onTimeout: () {
-      //   res = 'Release button with coilAddress $coilAddress failed';
-      //   return true;
-      // });
 
       if (pressResp is bool) {
         print('debug write pressResp: $pressResp');
 
-        ///set coil to default state false (button is pressed)
+        ///set coil to default state false (button is released)
         var releaseResp = await _client!.writeSingleCoil(coilAddress, false);
-        //     .timeout(_writeTimeout, onTimeout: () {
-        //   res = 'Release button with coilAddress $coilAddress failed';
-        //   return true;
-        // });
+
         if (releaseResp is bool) {
           print('debug write releaseResp: $releaseResp');
         } else {

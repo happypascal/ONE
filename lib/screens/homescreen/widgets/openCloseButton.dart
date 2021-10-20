@@ -8,19 +8,15 @@ class OpenCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool openCloseState = Provider.of<DeviceData>(context).openCloseState;
-    return Column(
-      children: [
-        InkWell(
-          child: Image.asset(
-            openCloseState ? Const.IMAGE_CLOSE : Const.IMAGE_OPEN,
-            height: 80.0,
-            width: 80.0,
-          ),
-          onTap: () {
-            _onTap(context);
-          },
-        )
-      ],
+    return InkWell(
+      child: Image.asset(
+        openCloseState ? Const.IMAGE_CLOSE : Const.IMAGE_OPEN,
+        height: 100.0,
+        width: 100.0,
+      ),
+      onTap: () {
+        _onTap(context);
+      },
     );
   }
 
