@@ -85,7 +85,7 @@ class DeviceData with ChangeNotifier {
       }
     } catch (e) {
       print('debug error on write to coilAddress: $e');
-      res = e.toString();
+      res = e.toString() + '. Try to reconnect.';
     }
     return res;
   }
