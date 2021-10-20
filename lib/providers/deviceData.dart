@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:modbus/modbus.dart';
 import 'dart:async';
 import 'package:humidor_one_by_favre/utils/const.dart';
+import 'dart:typed_data';
 
 class DeviceData with ChangeNotifier {
   ModbusClient? _client;
   Timer? _timer;
-  Duration _timerPeriod = Duration(milliseconds: 500);
+  Duration _timerPeriod = Duration(milliseconds: 1500);
   Duration _writeTimeout = Duration(milliseconds: 500);
 
   bool _openCloseState = false;
@@ -22,34 +23,46 @@ class DeviceData with ChangeNotifier {
     if (_timer != null && _timer!.isActive) {
       _timer!.cancel();
     }
+    _timer = Timer.periodic(_timerPeriod, _periodicReading);
+  }
 
-    _timer = Timer.periodic(_timerPeriod, (timer) async {
-      if (_client == null) {
-        print('debug Device is not connected');
-        return;
+  _periodicReading(Timer timer) async {
+    if (_client == null) {
+      print('debug Device is not connected');
+      return;
+    }
+    _error = '';
+    try {
+      await _readRegisters();
+    } catch (e) {
+      _client = null;
+      _error = e.toString();
+      print('debug periodic read error: $e');
+    }
+
+    notifyListeners();
+  }
+
+  _readRegisters() async {
+    try {
+      Uint16List registers = await _client!.readHoldingRegisters(0, 50);
+
+      int openCloseState = registers[Const.OPEN_CLOSE_STATE - 1];
+      if (openCloseState == 0) {
+        _openCloseState = false;
+      } else {
+        _openCloseState = true;
       }
+      print('debug openCloseState: $openCloseState');
+    } catch (e) {
+      throw e.toString() + ' on _readRegisters';
+    }
+  }
 
-      _error = '';
-
-      try {
-        int openCloseState =
-            (await _client!.readHoldingRegisters(Const.OPEN_CLOSE_STATE, 1))
-                .first;
-
-        if (openCloseState == 0) {
-          _openCloseState = false;
-        } else {
-          _openCloseState = true;
-        }
-        print('debug openCloseState: $openCloseState');
-      } catch (e) {
-        _client = null;
-        _error = e.toString();
-        print('debug read OPEN_CLOSE_STATE error: $e');
-      }
-
-      notifyListeners();
-    });
+  stopTimer() {
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+    }
   }
 
   Future<String?> writeData(int coilAddress) async {
@@ -81,11 +94,5 @@ class DeviceData with ChangeNotifier {
       res = e.toString() + '. Try to reconnect.';
     }
     return res;
-  }
-
-  stopTimer() {
-    if (_timer != null && _timer!.isActive) {
-      _timer!.cancel();
-    }
   }
 }

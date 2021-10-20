@@ -24,8 +24,7 @@ class _IndicatorsState extends State<Indicators> {
               'Device was disconnected. Error: ${data.error}. Try to reconnect. ');
         }
 
-        ///TODO:reading is hidden because coils is not ready on PLC side
-        //Provider.of<DeviceData>(context, listen: false).readData();
+        Provider.of<DeviceData>(context, listen: false).readData();
         return Container(
           width: double.infinity,
           child: Column(
