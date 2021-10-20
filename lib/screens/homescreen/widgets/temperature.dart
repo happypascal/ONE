@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
+import 'package:humidor_one_by_favre/utils/const.dart';
+import 'tempHumButton.dart';
 
 class Temperature extends StatelessWidget {
   const Temperature({Key? key}) : super(key: key);
@@ -43,10 +45,7 @@ class Temperature extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               flex: 1,
-              child: ElevatedButton(
-                child: Text('-'),
-                onPressed: () {},
-              ),
+              child: TempHumButton(Const.TEMP_MINUS, Const.IMAGE_MINUS),
             ),
             Flexible(
               fit: FlexFit.tight,
@@ -59,10 +58,7 @@ class Temperature extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               flex: 1,
-              child: ElevatedButton(
-                child: Text('+'),
-                onPressed: () {},
-              ),
+              child: TempHumButton(Const.TEMP_PLUS, Const.IMAGE_PLUS),
             ),
           ],
         )
