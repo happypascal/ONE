@@ -3,40 +3,57 @@ import 'package:modbus/modbus.dart';
 import 'dart:async';
 import 'package:humidor_one_by_favre/utils/const.dart';
 import 'dart:typed_data';
+import 'package:humidor_one_by_favre/utils/scaffoldMessage.dart';
 
 class DeviceData with ChangeNotifier {
   ModbusClient? _client;
   Timer? _timer;
   Duration _timerPeriod = Duration(milliseconds: 1500);
   Duration _writeTimeout = Duration(milliseconds: 500);
+  String _error = '';
+  int _errorCount = 0;
+  bool _isReading = false;
 
   bool _openCloseState = false;
-  String _error = '';
+  String _humMeasure = 'N/A';
+  String _humSet = 'N/A';
+  String _tempMeasure = 'N/A';
+  String _tempSet = 'N/A';
 
   DeviceData(this._client);
 
   bool get openCloseState => this._openCloseState;
   ModbusClient? get client => this._client;
   String get error => this._error;
+  String get humMeasure => this._humMeasure;
+  String get humSet => this._humSet;
+  String get tempMeasure => this._tempMeasure;
+  String get tempSet => this._tempSet;
 
-  Future<String?> readData() async {
+  Future<String?> readData(BuildContext context) async {
     if (_timer != null && _timer!.isActive) {
       _timer!.cancel();
     }
-    _timer = Timer.periodic(_timerPeriod, _periodicReading);
+    _timer = Timer.periodic(_timerPeriod, (timer) {
+      _periodicReading(context);
+    });
   }
 
-  _periodicReading(Timer timer) async {
+  _periodicReading(BuildContext context) async {
     if (_client == null) {
       print('debug Device is not connected');
       return;
     }
+    print('debug start reading');
     _error = '';
     try {
       await _readRegisters();
     } catch (e) {
-      _client = null;
       _error = e.toString();
+      if (!_error.contains('RangeError')) {
+        _client = null;
+        ScaffoldMessage.showErrorMessage(context, 'periodic read error: $e');
+      }
       print('debug periodic read error: $e');
     }
 
@@ -45,15 +62,28 @@ class DeviceData with ChangeNotifier {
 
   _readRegisters() async {
     try {
-      Uint16List registers = await _client!.readHoldingRegisters(0, 50);
+      _isReading = true;
 
-      int openCloseState = registers[Const.OPEN_CLOSE_STATE - 1];
-      if (openCloseState == 0) {
-        _openCloseState = false;
-      } else {
-        _openCloseState = true;
+      Uint16List registers = await _client!.readHoldingRegisters(0, 51);
+      if (registers != null && registers.isNotEmpty) {
+        print('debug registers list length: ${registers.length}');
+
+        int openCloseState = registers[Const.OPEN_CLOSE_STATE];
+        _openCloseState = openCloseState == 0 ? false : true;
+
+        _humMeasure = registers[Const.HUM_MEASURE].toString();
+        _humSet = registers[Const.HUM_SET].toString();
+        _tempMeasure = registers[Const.TEMP_MEASURE].toString();
+        _tempSet = registers[Const.TEMP_SET].toString();
+
+        print('debug openCloseState: $openCloseState');
+        print('debug _humMeasure: $_humMeasure');
+        print('debug _humSet: $_humSet');
+        print('debug _tempMeasure: $_tempMeasure');
+        print('debug _tempSet: $_tempSet');
       }
-      print('debug openCloseState: $openCloseState');
+
+      _isReading = false;
     } catch (e) {
       throw e.toString() + ' on _readRegisters';
     }

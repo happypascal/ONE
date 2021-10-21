@@ -14,7 +14,7 @@ class Const {
   static const int HUM_SET = 0;
   static const int TEMP_MEASURE = 50;
   static const int TEMP_SET = 1;
-  static const int OPEN_CLOSE_STATE = 34;
+  static const int OPEN_CLOSE_STATE = 33;
 
   static const String IMAGE_OPEN = 'assets/open.png';
   static const String IMAGE_CLOSE = 'assets/close.png';
