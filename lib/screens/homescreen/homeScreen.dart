@@ -4,6 +4,7 @@ import 'package:humidor_one_by_favre/providers/connect.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'widgets/connectionError.dart';
 import 'widgets/indicators.dart';
+import 'package:humidor_one_by_favre/utils/dialogs.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,8 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        //TODO implement dialog ask exit app
-        return true;
+        return await Dialogs.confirmExitDialog(context);
       },
       child: Container(
         decoration: BoxDecoration(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
-import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/settings.dart';
 import 'package:humidor_one_by_favre/providers/deviceData.dart';
 import 'widgets/addressPart.dart';
 import 'widgets/dot.dart';
+import 'package:humidor_one_by_favre/utils/dialogs.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -44,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       for (var element in splitted) {
         if (int.tryParse(element) == null) {
           return 'Should contain digits only';
-        }
+        } else {}
       }
     }
 
@@ -74,8 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        //TODO implement dialog ask exit app
-        return true;
+        return await Dialogs.confirmExitDialog(context);
       },
       child: Container(
         decoration: BoxDecoration(
