@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 CustomAppBar(),
-                SizedBox(height: 30.0),
+                SizedBox(height: 10.0),
                 FutureBuilder<String?>(
                   future:
                       Provider.of<Connect>(context, listen: false).connect(),
