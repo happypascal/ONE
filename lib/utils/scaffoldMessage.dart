@@ -7,7 +7,7 @@ class ScaffoldMessage {
       SnackBar(
         content: Text(msg),
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
