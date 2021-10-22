@@ -11,8 +11,7 @@ class DeviceData with ChangeNotifier {
   Duration _timerPeriod = Duration(milliseconds: 1500);
   Duration _writeTimeout = Duration(milliseconds: 500);
   String _error = '';
-  int _errorCount = 0;
-  bool _isReading = false;
+  bool _isWriting = false;
 
   bool _openCloseState = false;
   String _humMeasure = 'N/A';
@@ -29,6 +28,7 @@ class DeviceData with ChangeNotifier {
   String get humSet => this._humSet;
   String get tempMeasure => this._tempMeasure;
   String get tempSet => this._tempSet;
+  bool get isWriting => this._isWriting;
 
   Future<String?> readData(BuildContext context) async {
     if (_timer != null && _timer!.isActive) {
@@ -46,15 +46,21 @@ class DeviceData with ChangeNotifier {
     }
     print('debug start reading');
     _error = '';
-    try {
-      await _readRegisters();
-    } catch (e) {
-      _error = e.toString();
-      if (!_error.contains('RangeError')) {
-        _client = null;
-        ScaffoldMessage.showErrorMessage(context, 'periodic read error: $e');
+
+    ///we pass scheduled reading if writing is not done
+    if (!_isWriting) {
+      try {
+        await _readRegisters();
+      } catch (e) {
+        _error = e.toString();
+        if (!_error.contains('RangeError')) {
+          _client = null;
+          ScaffoldMessage.showErrorMessage(context, 'periodic read error: $e');
+        }
+        print('debug periodic read error: $e');
       }
-      print('debug periodic read error: $e');
+    } else {
+      print('debug cancel reading because of writing');
     }
 
     notifyListeners();
@@ -62,8 +68,6 @@ class DeviceData with ChangeNotifier {
 
   _readRegisters() async {
     try {
-      _isReading = true;
-
       Uint16List registers = await _client!.readHoldingRegisters(0, 51);
       if (registers != null && registers.isNotEmpty) {
         print('debug registers list length: ${registers.length}');
@@ -82,8 +86,6 @@ class DeviceData with ChangeNotifier {
         print('debug _tempMeasure: $_tempMeasure');
         print('debug _tempSet: $_tempSet');
       }
-
-      _isReading = false;
     } catch (e) {
       throw e.toString() + ' on _readRegisters';
     }
@@ -103,6 +105,7 @@ class DeviceData with ChangeNotifier {
     var res;
     try {
       ///to open or close set coil to true (button is pressed)
+      _toggleIsWriting();
       var pressResp = await _client!.writeSingleCoil(coilAddress, true);
 
       if (pressResp is bool) {
@@ -123,6 +126,12 @@ class DeviceData with ChangeNotifier {
       print('debug error on write to coilAddress: $e');
       res = e.toString() + '. Try to reconnect.';
     }
+    _toggleIsWriting();
     return res;
+  }
+
+  _toggleIsWriting() {
+    _isWriting = !_isWriting;
+    notifyListeners();
   }
 }
