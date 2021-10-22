@@ -2,8 +2,8 @@ class Const {
   static const DEFAULT_ADDRESS = '192.168.8.1';
 
   //Coils
-  //TODO add const for release
-  static int OPEN_CLOSE_SET = 133;
+
+  static const int OPEN_CLOSE_SET = 133;
   static const int HUM_MINUS = 8;
   static const int HUM_PLUS = 9;
   static const int TEMP_MINUS = 35;

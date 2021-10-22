@@ -110,21 +110,6 @@ class CustomAppBar extends StatelessWidget {
               'assets/logo.png',
             ),
           ),
-
-          //TODO check or remove later
-          // LayoutBuilder(
-          //   builder: (context, constraints) {
-          //     print('debug constraints.maxWidth: ${constraints.maxWidth}');
-          //     return Container(
-          //       constraints:
-          //           BoxConstraints(maxWidth: constraints.maxWidth * 0.2),
-          //       child: Image.asset(
-          //         'assets/logo.png',
-          //         width: 5.0,
-          //       ),
-          //     );
-          //   },
-          // ),
         ),
         Flexible(
           flex: 1,

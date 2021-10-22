@@ -5,7 +5,7 @@ import 'package:humidor_one_by_favre/utils/const.dart';
 class Connect with ChangeNotifier {
   String _address = Const.DEFAULT_ADDRESS;
   ModbusClient? _client;
-  int _port = 5022; //TODO change it to 502 for release version
+  int _port = 502; //TODO change it to 502 for release version
   bool _isConnecting = false;
   bool _isConnected = false;
 
@@ -46,18 +46,9 @@ class Connect with ChangeNotifier {
     }
   }
 
-  _toggleIsConnecting() {
-    _isConnecting = !_isConnecting;
-    notifyListeners();
-  }
-
   disconnect() {
     _client!.close();
     _client = null;
     _isConnected = false;
-  }
-
-  checkConnection() {
-    //TODO implement it when error on write/read occurs
   }
 }

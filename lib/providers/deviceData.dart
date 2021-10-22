@@ -9,7 +9,7 @@ class DeviceData with ChangeNotifier {
   ModbusClient? _client;
   Timer? _timer;
   Duration _timerPeriod = Duration(milliseconds: 1500);
-  Duration _writeTimeout = Duration(milliseconds: 500);
+  //Duration _writeTimeout = Duration(milliseconds: 500);
   String _error = '';
   bool _isWriting = false;
 

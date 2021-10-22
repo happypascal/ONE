@@ -24,7 +24,7 @@ class _IndicatorsState extends State<Indicators> {
               'Device was disconnected. Error: ${data.error}. Try to reconnect. ');
         }
 
-        ///TODO Provider.of<DeviceData>(context, listen: false).readData(context);
+        Provider.of<DeviceData>(context, listen: false).readData(context);
         return Container(
           width: double.infinity,
           child: Column(
