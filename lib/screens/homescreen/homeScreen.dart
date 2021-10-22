@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:humidor_one_by_favre/screens/homescreen/widgets/customAppBar.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/connect.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
@@ -31,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
           body: CustomWrapper(
             child: Column(
               children: [
-                CustomAppBar(),
+                CustomAppBar(
+                  needSettingsBtn: true,
+                ),
                 SizedBox(height: 10.0),
                 FutureBuilder<String?>(
                   future:

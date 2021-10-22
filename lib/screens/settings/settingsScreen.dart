@@ -5,6 +5,8 @@ import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/settings.dart';
 import 'package:humidor_one_by_favre/providers/deviceData.dart';
+import 'widgets/addressPart.dart';
+import 'widgets/dot.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -13,11 +15,22 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final _key = GlobalKey<FormState>();
-  final TextEditingController _addrCtrl = TextEditingController();
+  final TextEditingController _addrCtrl_0 = TextEditingController();
+  final TextEditingController _addrCtrl_1 = TextEditingController();
+  final TextEditingController _addrCtrl_2 = TextEditingController();
+  final TextEditingController _addrCtrl_3 = TextEditingController();
+
+  String _address = '';
 
   initState() {
     super.initState();
-    _addrCtrl.text = Provider.of<Settings>(context, listen: false).address;
+    _address = Provider.of<Settings>(context, listen: false).address;
+    var splitted =
+        Provider.of<Settings>(context, listen: false).address.split('.');
+    _addrCtrl_0.text = splitted[0];
+    _addrCtrl_1.text = splitted[1];
+    _addrCtrl_2.text = splitted[2];
+    _addrCtrl_3.text = splitted[3];
   }
 
   String? _validate(String? val) {
@@ -38,12 +51,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return res;
   }
 
-  _saveForm() {
+  _saveForm() async {
     var isValid = _key.currentState!.validate();
     if (isValid) {
-      //to stop already reading data in case exisiting connection
+      //to stop already reading data in case existing connection
       Provider.of<DeviceData>(context, listen: false).stopTimer();
+      _address = '';
       _key.currentState!.save();
+      await Provider.of<Settings>(context, listen: false).saveAddress(_address);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.HOME_SCREEN);
+    }
+  }
+
+  _updateAddress(String? val) {
+    if (_address != '') {
+      _address = _address + '.' + val!;
+    } else {
+      _address = val!;
     }
   }
 
@@ -53,55 +77,79 @@ class _SettingsScreenState extends State<SettingsScreen> {
         //TODO implement dialog ask exit app
         return true;
       },
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text('Settings'),
-          ),
-          body: CustomWrapper(
-            child: Column(
-              children: [
-                Text('Enter IP address'),
-                SizedBox(height: 10.0),
-                Form(
-                  key: _key,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        validator: _validate,
-                        controller: _addrCtrl,
-                        keyboardType: TextInputType.number,
-                        onSaved: (val) async {
-                          //to avoid
-
-                          await Provider.of<Settings>(context, listen: false)
-                              .saveAddress(_addrCtrl.text);
-                          Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.HOME_SCREEN);
-                        },
-                      ),
-
-                      //TODO remove this formfield for release. For test coil addreses
-
-                      // SizedBox(height: 20.0),
-                      // Text('Open-close button coil address'),
-                      // TextFormField(
-                      //   keyboardType: TextInputType.number,
-                      //   onSaved: (val) {
-                      //     if (val != null) {
-                      //       Const.OPEN_CLOSE_SET = int.tryParse(val) ?? 133;
-                      //     }
-                      //   },
-                      // )
-                    ],
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/background.png',
+              ),
+              fit: BoxFit.cover),
+        ),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: CustomWrapper(
+              child: Column(
+                children: [
+                  CustomAppBar(
+                    needSettingsBtn: false,
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: _saveForm,
-                  child: Text('Save & Connect'),
-                ),
-              ],
-            ),
-          )),
+                  Indicator(
+                      title: 'Enter IP address',
+                      child: Column(
+                        children: [
+                          LayoutBuilder(
+                            builder: (ctx, constraints) {
+                              return Form(
+                                key: _key,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AddressPart(constraints.maxWidth * 0.2,
+                                        _validate, _addrCtrl_0, _updateAddress),
+                                    Dot(),
+                                    AddressPart(constraints.maxWidth * 0.2,
+                                        _validate, _addrCtrl_1, _updateAddress),
+                                    Dot(),
+                                    AddressPart(constraints.maxWidth * 0.2,
+                                        _validate, _addrCtrl_2, _updateAddress),
+                                    Dot(),
+                                    AddressPart(constraints.maxWidth * 0.2,
+                                        _validate, _addrCtrl_3, _updateAddress),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 30.0),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Image.asset(
+                                  'assets/cancel.png',
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: _saveForm,
+                                child: Image.asset(
+                                  'assets/validate.png',
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+            )),
+      ),
     );
   }
 }
