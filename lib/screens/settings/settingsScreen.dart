@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
+import 'package:humidor_one_by_favre/screens/settings/widgets/cancelButton.dart';
 import 'package:provider/provider.dart';
 import 'package:humidor_one_by_favre/providers/settings.dart';
 import 'package:humidor_one_by_favre/providers/deviceData.dart';
@@ -27,17 +28,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _address = Provider.of<Settings>(context, listen: false).address;
     var splitted =
         Provider.of<Settings>(context, listen: false).address.split('.');
-    _addrCtrl_0.text = splitted[0];
-    _addrCtrl_1.text = splitted[1];
-    _addrCtrl_2.text = splitted[2];
-    _addrCtrl_3.text = splitted[3];
+    if (splitted.length == 4) {
+      _addrCtrl_0.text = splitted[0];
+      _addrCtrl_1.text = splitted[1];
+      _addrCtrl_2.text = splitted[2];
+      _addrCtrl_3.text = splitted[3];
+    }
   }
 
   String? _validate(String? val) {
     var res;
 
     if (val == null || val == '') {
-      res = 'Please fill';
+      res = 'Fill';
     } else {
       var splitted = val.split('.');
 
@@ -125,14 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                  'assets/cancel.png',
-                                  width: 60.0,
-                                  height: 60.0,
-                                ),
-                              ),
+                              CancelButton(),
                               InkWell(
                                 onTap: _saveForm,
                                 child: Image.asset(

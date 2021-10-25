@@ -1,5 +1,5 @@
 class Const {
-  static const DEFAULT_ADDRESS = '192.168.8.1';
+  static const DEFAULT_ADDRESS = '';
 
   //Coils
 

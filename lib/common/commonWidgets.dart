@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:humidor_one_by_favre/providers/deviceData.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
+import 'package:provider/provider.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -93,6 +95,7 @@ class CustomAppBar extends StatelessWidget {
           child: needSettingsBtn
               ? InkWell(
                   onTap: () {
+                    Provider.of<DeviceData>(context, listen: false).stopTimer();
                     Navigator.of(context)
                         .pushReplacementNamed(AppRoutes.SETTINGS_SCREEN);
                   },
