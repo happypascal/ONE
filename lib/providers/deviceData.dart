@@ -127,8 +127,12 @@ class DeviceData with ChangeNotifier {
 
         if (releaseResp is bool) {
           print('debug write releaseResp: $releaseResp');
-          await _readRegisters();
-          notifyListeners();
+
+          ///if it is hum or temp updating need to read registers immdeately without cycle waiting
+          if (readWithOutWaiting) {
+            await _readRegisters();
+            notifyListeners();
+          }
         } else {
           res = 'Release button with coilAddress $coilAddress failed';
         }
