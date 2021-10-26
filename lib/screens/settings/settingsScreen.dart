@@ -23,6 +23,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   String _address = '';
 
+  bool _isValid = true;
+
   initState() {
     super.initState();
     _address = Provider.of<Settings>(context, listen: false).address;
@@ -41,14 +43,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (val == null || val == '') {
       res = 'Fill';
+      setState(() {
+        _isValid = false;
+      });
     } else {
-      var splitted = val.split('.');
-
-      for (var element in splitted) {
-        if (int.tryParse(element) == null) {
-          return 'Should contain digits only';
-        } else {}
-      }
+      if (int.tryParse(val) == null) {
+        res = 'Digits!';
+        setState(() {
+          _isValid = false;
+        });
+      } else {}
     }
 
     return res;
@@ -107,17 +111,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    AddressPart(constraints.maxWidth * 0.2,
-                                        _validate, _addrCtrl_0, _updateAddress),
+                                    AddressPart(
+                                        constraints.maxWidth * 0.2,
+                                        _validate,
+                                        _addrCtrl_0,
+                                        _updateAddress,
+                                        _isValid),
                                     Dot(),
-                                    AddressPart(constraints.maxWidth * 0.2,
-                                        _validate, _addrCtrl_1, _updateAddress),
+                                    AddressPart(
+                                        constraints.maxWidth * 0.2,
+                                        _validate,
+                                        _addrCtrl_1,
+                                        _updateAddress,
+                                        _isValid),
                                     Dot(),
-                                    AddressPart(constraints.maxWidth * 0.2,
-                                        _validate, _addrCtrl_2, _updateAddress),
+                                    AddressPart(
+                                        constraints.maxWidth * 0.2,
+                                        _validate,
+                                        _addrCtrl_2,
+                                        _updateAddress,
+                                        _isValid),
                                     Dot(),
-                                    AddressPart(constraints.maxWidth * 0.2,
-                                        _validate, _addrCtrl_3, _updateAddress),
+                                    AddressPart(
+                                        constraints.maxWidth * 0.2,
+                                        _validate,
+                                        _addrCtrl_3,
+                                        _updateAddress,
+                                        _isValid),
                                   ],
                                 ),
                               );

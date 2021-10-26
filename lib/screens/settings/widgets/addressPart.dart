@@ -5,17 +5,14 @@ class AddressPart extends StatelessWidget {
   final String? Function(String?) validate;
   final addrCtrl;
   final Function(String?) updateAddress;
-  AddressPart(
-    this.maxWidth,
-    this.validate,
-    this.addrCtrl,
-    this.updateAddress,
-  );
+  final bool isValid;
+  AddressPart(this.maxWidth, this.validate, this.addrCtrl, this.updateAddress,
+      this.isValid);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: maxWidth,
-      height: 40.0,
+      height: isValid ? 40.0 : 50.0,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -25,7 +22,7 @@ class AddressPart extends StatelessWidget {
               width: 1.0,
               color: Colors.white,
             )),
-        padding: const EdgeInsets.all(6.0),
+        padding: EdgeInsets.all(isValid ? 6.0 : 2.0),
         alignment: Alignment.center,
         child: TextFormField(
           decoration: InputDecoration(border: InputBorder.none),
