@@ -14,6 +14,10 @@ class DeviceData with ChangeNotifier {
   bool _isWriting = false;
 
   bool _openCloseState = false;
+
+  //TODO remove: for test and debug
+  int _openCloseResp = 0;
+
   String _humMeasure = 'N/A';
   String _humSet = 'N/A';
   String _tempMeasure = 'N/A';
@@ -22,6 +26,10 @@ class DeviceData with ChangeNotifier {
   DeviceData(this._client);
 
   bool get openCloseState => this._openCloseState;
+
+  //TODO remove: for test and debug
+  int get openCloseResp => this._openCloseResp;
+
   ModbusClient? get client => this._client;
   String get error => this._error;
   String get humMeasure => this._humMeasure;
@@ -73,7 +81,9 @@ class DeviceData with ChangeNotifier {
         print('debug registers list length: ${registers.length}');
 
         int openCloseState = registers[Const.OPEN_CLOSE_STATE];
-        _openCloseState = openCloseState == 0 ? false : true;
+        _openCloseResp = openCloseState;
+        _openCloseState = openCloseState == 1 ? true : false;
+        print('debug _openCloseState: $_openCloseState');
 
         _humMeasure = registers[Const.HUM_MEASURE].toString();
         _humSet = registers[Const.HUM_SET].toString();
@@ -97,7 +107,8 @@ class DeviceData with ChangeNotifier {
     }
   }
 
-  Future<String?> writeData(int coilAddress) async {
+  Future<String?> writeData(int coilAddress,
+      {bool readWithOutWaiting = true}) async {
     if (_client == null) {
       return 'Device is not connected';
     }
@@ -116,6 +127,8 @@ class DeviceData with ChangeNotifier {
 
         if (releaseResp is bool) {
           print('debug write releaseResp: $releaseResp');
+          await _readRegisters();
+          notifyListeners();
         } else {
           res = 'Release button with coilAddress $coilAddress failed';
         }

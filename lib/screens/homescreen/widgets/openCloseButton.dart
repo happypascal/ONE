@@ -29,7 +29,7 @@ class OpenCloseButton extends StatelessWidget {
 
   _onTap(BuildContext context) async {
     var msg = await Provider.of<DeviceData>(context, listen: false)
-        .writeData(Const.OPEN_CLOSE_SET);
+        .writeData(Const.OPEN_CLOSE_SET, readWithOutWaiting: false);
 
     if (msg != null) {
       ScaffoldMessage.showErrorMessage(context, msg);

@@ -6,12 +6,7 @@ import 'widgets/connectionError.dart';
 import 'widgets/indicators.dart';
 import 'package:humidor_one_by_favre/utils/dialogs.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {

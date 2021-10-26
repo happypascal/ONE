@@ -12,10 +12,6 @@ class Indicators extends StatefulWidget {
 }
 
 class _IndicatorsState extends State<Indicators> {
-  initState() {
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Consumer<DeviceData>(
       builder: (ctx, data, _) {
@@ -35,6 +31,12 @@ class _IndicatorsState extends State<Indicators> {
               Temperature(),
               SizedBox(height: 30.0),
               OpenCloseButton(),
+
+              //TODO remove: for test and debug
+              Text(
+                'Register 33 raw value: ${data.openCloseResp}',
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
         );
