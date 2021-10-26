@@ -6,9 +6,11 @@ import 'providers/connect.dart';
 import 'providers/deviceData.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
 class MyApp extends StatelessWidget {
