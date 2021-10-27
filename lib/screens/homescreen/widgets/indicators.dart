@@ -34,7 +34,7 @@ class _IndicatorsState extends State<Indicators> {
 
               //TODO remove: for test and debug
               Text(
-                'Register 33 raw value: ${data.openCloseResp}',
+                'Register 3 raw value: ${data.openCloseResp}',
                 style: TextStyle(color: Colors.white),
               ),
             ],
