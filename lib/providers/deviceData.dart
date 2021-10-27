@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:humidor_one_by_favre/utils/const.dart';
 import 'dart:typed_data';
 import 'package:humidor_one_by_favre/utils/scaffoldMessage.dart';
+import 'package:humidor_one_by_favre/utils/connectivityCheck.dart';
 
 class DeviceData with ChangeNotifier {
   ModbusClient? _client;
@@ -11,6 +12,7 @@ class DeviceData with ChangeNotifier {
   Duration _timerPeriod = Duration(milliseconds: 1500);
   //Duration _writeTimeout = Duration(milliseconds: 500);
   String _error = '';
+  int _errorCount = 0;
   bool _isWriting = false;
 
   bool _openCloseState = false;
@@ -52,6 +54,14 @@ class DeviceData with ChangeNotifier {
       print('debug Device is not connected');
       return;
     }
+
+    var connectivityResult = await ConnectivityCheck.checkWiFiConnection();
+    if (connectivityResult != null) {
+      _client = null;
+      _error = connectivityResult;
+      notifyListeners();
+      return;
+    }
     print('debug start reading');
     _error = '';
 
@@ -68,7 +78,13 @@ class DeviceData with ChangeNotifier {
         print('debug periodic read error: $e');
       }
     } else {
+      _errorCount++;
       print('debug cancel reading because of writing');
+      if (_errorCount > 2) {
+        _errorCount = 0;
+        _error = 'Writing error. Device is not reachable.';
+        _client = null;
+      }
     }
 
     notifyListeners();
@@ -89,6 +105,8 @@ class DeviceData with ChangeNotifier {
         _humSet = registers[Const.HUM_SET].toString();
         _tempMeasure = registers[Const.TEMP_MEASURE].toString();
         _tempSet = registers[Const.TEMP_SET].toString();
+
+        _errorCount = 0;
 
         print('debug openCloseState: $openCloseState');
         print('debug _humMeasure: $_humMeasure');

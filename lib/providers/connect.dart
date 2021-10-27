@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modbus/modbus.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
+import 'package:humidor_one_by_favre/utils/connectivityCheck.dart';
 
 class Connect with ChangeNotifier {
   String _address = Const.DEFAULT_ADDRESS;
@@ -17,6 +18,13 @@ class Connect with ChangeNotifier {
   bool get isConnected => this._isConnected;
 
   Future<String?> connect() async {
+    var connectivityResult = await ConnectivityCheck.checkWiFiConnection();
+    if (connectivityResult != null) {
+      _client = null;
+      notifyListeners();
+      return connectivityResult;
+    }
+
     print('debug start connect');
     _client = createTcpClient(
       _address,

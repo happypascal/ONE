@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
           body: CustomWrapper(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 CustomAppBar(
                   needSettingsBtn: true,
