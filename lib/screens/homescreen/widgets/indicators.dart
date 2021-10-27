@@ -24,6 +24,7 @@ class _IndicatorsState extends State<Indicators> {
         return Container(
           width: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Humidity(),

@@ -23,11 +23,11 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
           body: CustomWrapper(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CustomAppBar(
                   needSettingsBtn: true,
                 ),
-                SizedBox(height: 10.0),
                 FutureBuilder<String?>(
                   future:
                       Provider.of<Connect>(context, listen: false).connect(),

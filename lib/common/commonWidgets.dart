@@ -104,7 +104,7 @@ class CustomAppBar extends StatelessWidget {
           fit: FlexFit.tight,
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+                const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
             child: Image.asset(
               'assets/logo.png',
             ),
