@@ -92,78 +92,77 @@ class _SettingsScreenState extends State<SettingsScreen> {
               fit: BoxFit.cover),
         ),
         child: Scaffold(
-            backgroundColor: Colors.transparent,
             body: CustomWrapper(
-              child: Column(
-                children: [
-                  CustomAppBar(
-                    needSettingsBtn: false,
-                  ),
-                  Indicator(
-                      title: 'Enter IP address',
-                      child: Column(
+          child: Column(
+            children: [
+              CustomAppBar(
+                needSettingsBtn: false,
+              ),
+              Indicator(
+                  title: 'Enter IP address',
+                  child: Column(
+                    children: [
+                      LayoutBuilder(
+                        builder: (ctx, constraints) {
+                          return Form(
+                            key: _key,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AddressPart(
+                                    constraints.maxWidth * 0.2,
+                                    _validate,
+                                    _addrCtrl_0,
+                                    _updateAddress,
+                                    _isValid),
+                                Dot(),
+                                AddressPart(
+                                    constraints.maxWidth * 0.2,
+                                    _validate,
+                                    _addrCtrl_1,
+                                    _updateAddress,
+                                    _isValid),
+                                Dot(),
+                                AddressPart(
+                                    constraints.maxWidth * 0.2,
+                                    _validate,
+                                    _addrCtrl_2,
+                                    _updateAddress,
+                                    _isValid),
+                                Dot(),
+                                AddressPart(
+                                    constraints.maxWidth * 0.2,
+                                    _validate,
+                                    _addrCtrl_3,
+                                    _updateAddress,
+                                    _isValid),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 30.0),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          LayoutBuilder(
-                            builder: (ctx, constraints) {
-                              return Form(
-                                key: _key,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AddressPart(
-                                        constraints.maxWidth * 0.2,
-                                        _validate,
-                                        _addrCtrl_0,
-                                        _updateAddress,
-                                        _isValid),
-                                    Dot(),
-                                    AddressPart(
-                                        constraints.maxWidth * 0.2,
-                                        _validate,
-                                        _addrCtrl_1,
-                                        _updateAddress,
-                                        _isValid),
-                                    Dot(),
-                                    AddressPart(
-                                        constraints.maxWidth * 0.2,
-                                        _validate,
-                                        _addrCtrl_2,
-                                        _updateAddress,
-                                        _isValid),
-                                    Dot(),
-                                    AddressPart(
-                                        constraints.maxWidth * 0.2,
-                                        _validate,
-                                        _addrCtrl_3,
-                                        _updateAddress,
-                                        _isValid),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 30.0),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CancelButton(),
-                              InkWell(
-                                onTap: _saveForm,
-                                child: Image.asset(
-                                  'assets/validate.png',
-                                  width: 60.0,
-                                  height: 60.0,
-                                ),
-                              ),
-                            ],
+                          CancelButton(),
+                          InkWell(
+                            onTap: _saveForm,
+                            child: Image.asset(
+                              'assets/validate.png',
+                              width: 60.0,
+                              height: 60.0,
+                            ),
                           ),
                         ],
-                      ))
-                ],
-              ),
-            )),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+        )),
       ),
     );
   }

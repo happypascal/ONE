@@ -7,6 +7,7 @@ import 'providers/deviceData.dart';
 import 'package:humidor_one_by_favre/utils/const.dart';
 import 'package:humidor_one_by_favre/common/commonWidgets.dart';
 import 'package:flutter/services.dart';
+import 'theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -76,9 +77,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'One by Favre',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
+      theme: CustomThemeData.theme,
       routes: AppRoutes.getRoutes(),
       initialRoute: AppRoutes.initialRoute(initialScreen),
     );

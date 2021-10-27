@@ -55,11 +55,7 @@ class Indicator extends StatelessWidget {
               child: Center(
                 child: Text(
                   title.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             );

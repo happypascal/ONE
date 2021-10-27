@@ -9,7 +9,7 @@ class Dot extends StatelessWidget {
       child: Text(
         '.',
         style: TextStyle(
-          color: Colors.white,
+          color: Color(0xffD5E9F4),
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
         ),

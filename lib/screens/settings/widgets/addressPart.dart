@@ -20,14 +20,14 @@ class AddressPart extends StatelessWidget {
             ),
             border: Border.all(
               width: 1.0,
-              color: Colors.white,
+              color: Color(0xffD5E9F4),
             )),
         padding: EdgeInsets.all(isValid ? 6.0 : 2.0),
         alignment: Alignment.center,
         child: TextFormField(
           decoration: InputDecoration(border: InputBorder.none),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.0, color: Colors.white),
+          style: TextStyle(fontSize: 16.0, color: Color(0xffD5E9F4)),
           validator: validate,
           controller: addrCtrl,
           keyboardType: TextInputType.number,

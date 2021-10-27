@@ -34,11 +34,7 @@ class IndicatorLayout extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   measureValue,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.headline1,
                 ),
               ),
             ),
@@ -48,10 +44,7 @@ class IndicatorLayout extends StatelessWidget {
               child: Container(
                 child: Text(
                   label,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
+                  style: Theme.of(context).textTheme.headline2,
                 ),
               ),
             ),
@@ -72,11 +65,7 @@ class IndicatorLayout extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   setValue,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.headline3,
                 ),
               ),
             ),

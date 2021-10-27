@@ -21,7 +21,6 @@ class HomeScreen extends StatelessWidget {
               fit: BoxFit.cover),
         ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
           body: CustomWrapper(
             child: Column(
               children: [

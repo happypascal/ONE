@@ -20,8 +20,8 @@ class _TempHumButtonState extends State<TempHumButton> {
       child: InkWell(
         child: Image.asset(
           widget.imagePath,
-          width: 80.0,
-          height: 80.0,
+          width: 110.0,
+          height: 110.0,
         ),
         onTap: isWriting
             ? null
