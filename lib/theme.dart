@@ -13,12 +13,12 @@ class CustomThemeData {
         fontWeight: FontWeight.w600,
       ),
       headline1: TextStyle(
-        color: Color(0xffD5E9F4),
+        color: Color(0xffffffff),
         fontSize: 60.0,
         fontWeight: FontWeight.w600,
       ),
       headline2: TextStyle(
-        color: Color(0xffD5E9F4),
+        color: Color(0xffffffff),
         fontSize: 26.0,
       ),
       headline3: TextStyle(
