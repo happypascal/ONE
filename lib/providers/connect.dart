@@ -6,9 +6,10 @@ import 'package:humidor_one_by_favre/utils/connectivityCheck.dart';
 class Connect with ChangeNotifier {
   String _address = Const.DEFAULT_ADDRESS;
   ModbusClient? _client;
-  int _port = 502; //TODO change it to 502 for release version
+  int _port = 5022; //TODO change it to 502 for release version
   bool _isConnecting = false;
   bool _isConnected = false;
+  int _errorCount = 0;
 
   Connect(this._address);
 
@@ -35,12 +36,14 @@ class Connect with ChangeNotifier {
     var res;
 
     try {
-      bool timeOutError = false;
-      await _client!.connect().timeout(Duration(seconds: 10), onTimeout: () {
-        timeOutError = true;
-        print('debug timeOutError:$timeOutError');
-        _client!.close();
-      });
+      _errorCount = 0;
+      bool timeOutError = true;
+
+      while (_errorCount < 3 && timeOutError) {
+        print('debug connect attempt:$_errorCount');
+        timeOutError = await _connectAttempt();
+      }
+
       if (!timeOutError) {
         _isConnected = true;
         notifyListeners();
@@ -52,6 +55,17 @@ class Connect with ChangeNotifier {
       print('debug connect error: $e ');
       throw (e);
     }
+  }
+
+  Future<bool> _connectAttempt() async {
+    var timeOutError = false;
+    await _client!.connect().timeout(Duration(seconds: 3), onTimeout: () {
+      timeOutError = true;
+      _errorCount++;
+      print('debug timeOutError:$timeOutError');
+      _client!.close();
+    });
+    return timeOutError;
   }
 
   disconnect() {
