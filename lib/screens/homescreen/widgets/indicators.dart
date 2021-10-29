@@ -32,12 +32,6 @@ class _IndicatorsState extends State<Indicators> {
               Temperature(),
               SizedBox(height: 30.0),
               OpenCloseButton(),
-
-              //TODO remove: for test and debug
-              Text(
-                'Register 3 raw value: ${data.openCloseResp}',
-                style: TextStyle(color: Colors.white),
-              ),
             ],
           ),
         );
