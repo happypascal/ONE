@@ -11,25 +11,23 @@ class Humidity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DeviceData>(
-      builder: (ctx, deviceData, _) {
-        return Indicator(
-          title: "Humidity",
-          child: IndicatorLayout(
-            measureValue: deviceData.humMeasure,
-            setValue: deviceData.humSet,
-            label: '%',
-            minusButton: TempHumButton(
-              Const.HUM_MINUS,
-              Const.IMAGE_MINUS,
-            ),
-            plusButton: TempHumButton(
-              Const.HUM_PLUS,
-              Const.IMAGE_PLUS,
-            ),
+    return Consumer<DeviceData>(builder: (ctx, deviceData, _) {
+      return Indicator(
+        title: "Humidity",
+        child: IndicatorLayout(
+          measureValue: deviceData.humMeasure,
+          setValue: deviceData.humSet,
+          label: '%',
+          minusButton: TempHumButton(
+            Const.HUM_MINUS,
+            Const.IMAGE_MINUS,
           ),
-        );
-      },
-    );
+          plusButton: TempHumButton(
+            Const.HUM_PLUS,
+            Const.IMAGE_PLUS,
+          ),
+        ),
+      );
+    });
   }
 }

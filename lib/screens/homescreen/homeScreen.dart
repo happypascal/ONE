@@ -8,6 +8,8 @@ import 'package:humidor_one_by_favre/utils/dialogs.dart';
 
 class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    print('debug screen height $height');
     return WillPopScope(
       onWillPop: () async {
         return await Dialogs.confirmExitDialog(context);
@@ -22,30 +24,38 @@ class HomeScreen extends StatelessWidget {
         ),
         child: Scaffold(
           body: CustomWrapper(
-            child: Column(
+            child: Flex(
+              direction: Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                CustomAppBar(
-                  needSettingsBtn: true,
+                SizedBox(
+                  height: 80.0,
+                  child: CustomAppBar(
+                    needSettingsBtn: true,
+                  ),
                 ),
-                FutureBuilder<String?>(
-                  future:
-                      Provider.of<Connect>(context, listen: false).connect(),
-                  builder: (ctx, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CustomProgressIndicator();
-                    }
+                Flexible(
+                  flex: 7,
+                  fit: FlexFit.tight,
+                  child: FutureBuilder<String?>(
+                    future:
+                        Provider.of<Connect>(context, listen: false).connect(),
+                    builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CustomProgressIndicator();
+                      }
 
-                    if (snapshot.hasError) {
-                      return ConnectionError(snapshot.error.toString());
-                    }
-                    if (snapshot.data != null) {
-                      return ConnectionError(snapshot.data);
-                    }
+                      if (snapshot.hasError) {
+                        return ConnectionError(snapshot.error.toString());
+                      }
+                      if (snapshot.data != null) {
+                        return ConnectionError(snapshot.data);
+                      }
 
-                    return Indicators();
-                  },
+                      return Indicators();
+                    },
+                  ),
                 ),
               ],
             ),

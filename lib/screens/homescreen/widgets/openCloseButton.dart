@@ -10,13 +10,13 @@ class OpenCloseButton extends StatelessWidget {
     DeviceData deviceData = Provider.of<DeviceData>(context);
     bool openCloseState = deviceData.openCloseState;
     bool isWriting = deviceData.isWriting;
-    return Opacity(
-      opacity: isWriting ? 0.3 : 1,
-      child: Container(
-        constraints: BoxConstraints(maxWidth: 100.0),
+    return LayoutBuilder(builder: (ctx, constraints) {
+      return Opacity(
+        opacity: isWriting ? 0.3 : 1,
         child: InkWell(
           child: Image.asset(
             openCloseState ? Const.IMAGE_CLOSE : Const.IMAGE_OPEN,
+            width: constraints.maxHeight * 0.8,
           ),
           onTap: isWriting
               ? null
@@ -24,8 +24,8 @@ class OpenCloseButton extends StatelessWidget {
                   _onTap(context);
                 },
         ),
-      ),
-    );
+      );
+    });
   }
 
   _onTap(BuildContext context) async {

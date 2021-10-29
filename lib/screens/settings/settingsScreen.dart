@@ -79,6 +79,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    print('debug screen $height');
     return WillPopScope(
       onWillPop: () async {
         return await Dialogs.confirmExitDialog(context);
@@ -93,73 +95,120 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Scaffold(
             body: CustomWrapper(
-          child: Column(
+          child: Flex(
+            direction: Axis.vertical,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              CustomAppBar(
-                needSettingsBtn: false,
+              SizedBox(
+                height: 80.0,
+                child: CustomAppBar(
+                  needSettingsBtn: false,
+                ),
               ),
-              Indicator(
-                  title: 'Enter IP address',
+              Flexible(
+                  flex: 6,
+                  fit: FlexFit.tight,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       LayoutBuilder(
                         builder: (ctx, constraints) {
-                          return Form(
-                            key: _key,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                AddressPart(
-                                    constraints.maxWidth * 0.2,
-                                    _validate,
-                                    _addrCtrl_0,
-                                    _updateAddress,
-                                    _isValid),
-                                Dot(),
-                                AddressPart(
-                                    constraints.maxWidth * 0.2,
-                                    _validate,
-                                    _addrCtrl_1,
-                                    _updateAddress,
-                                    _isValid),
-                                Dot(),
-                                AddressPart(
-                                    constraints.maxWidth * 0.2,
-                                    _validate,
-                                    _addrCtrl_2,
-                                    _updateAddress,
-                                    _isValid),
-                                Dot(),
-                                AddressPart(
-                                    constraints.maxWidth * 0.2,
-                                    _validate,
-                                    _addrCtrl_3,
-                                    _updateAddress,
-                                    _isValid),
-                              ],
+                          return Container(
+                            height: 30.0,
+                            width: constraints.maxWidth * 0.7,
+                            padding: const EdgeInsets.only(
+                                top: 6.0, left: 10.0, right: 10.0),
+                            decoration: BoxDecoration(
+                              color: Color(0x77000000),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Enter IP address'.toUpperCase(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: constraints.maxWidth * 0.06),
+                              ),
                             ),
                           );
                         },
                       ),
-                      SizedBox(height: 30.0),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CancelButton(),
-                          InkWell(
-                            onTap: _saveForm,
-                            child: Image.asset(
-                              'assets/validate.png',
-                              width: 60.0,
-                              height: 60.0,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                          color: Color(0x77000000),
+                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            LayoutBuilder(
+                              builder: (ctx, constraints) {
+                                return Form(
+                                  key: _key,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AddressPart(
+                                          constraints.maxWidth * 0.2,
+                                          _validate,
+                                          _addrCtrl_0,
+                                          _updateAddress,
+                                          _isValid),
+                                      Dot(),
+                                      AddressPart(
+                                          constraints.maxWidth * 0.2,
+                                          _validate,
+                                          _addrCtrl_1,
+                                          _updateAddress,
+                                          _isValid),
+                                      Dot(),
+                                      AddressPart(
+                                          constraints.maxWidth * 0.2,
+                                          _validate,
+                                          _addrCtrl_2,
+                                          _updateAddress,
+                                          _isValid),
+                                      Dot(),
+                                      AddressPart(
+                                          constraints.maxWidth * 0.2,
+                                          _validate,
+                                          _addrCtrl_3,
+                                          _updateAddress,
+                                          _isValid),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 30.0),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CancelButton(),
+                                InkWell(
+                                  onTap: _saveForm,
+                                  child: Image.asset(
+                                    'assets/validate.png',
+                                    width: 60.0,
+                                    height: 60.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ))
+                  )),
             ],
           ),
         )),

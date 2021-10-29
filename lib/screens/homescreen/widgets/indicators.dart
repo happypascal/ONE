@@ -23,15 +23,17 @@ class _IndicatorsState extends State<Indicators> {
         Provider.of<DeviceData>(context, listen: false).readData(context);
         return Container(
           width: double.infinity,
-          child: Column(
+          child: Flex(
+            direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Humidity(),
-              SizedBox(height: 30.0),
-              Temperature(),
-              SizedBox(height: 30.0),
-              OpenCloseButton(),
+              Flexible(flex: 5, fit: FlexFit.tight, child: Humidity()),
+              SizedBox(height: 16.0),
+              Flexible(flex: 5, fit: FlexFit.tight, child: Temperature()),
+              SizedBox(height: 16.0),
+              Flexible(flex: 3, fit: FlexFit.tight, child: OpenCloseButton()),
             ],
           ),
         );

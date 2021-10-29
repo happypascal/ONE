@@ -18,7 +18,7 @@ class Temperature extends StatelessWidget {
           child: IndicatorLayout(
             measureValue: deviceData.tempMeasure,
             setValue: deviceData.tempSet,
-            label: 'deg',
+            label: '\u00B0',
             minusButton: TempHumButton(
               Const.TEMP_MINUS,
               Const.IMAGE_MINUS,

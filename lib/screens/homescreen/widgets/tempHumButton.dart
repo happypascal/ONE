@@ -15,21 +15,21 @@ class TempHumButton extends StatefulWidget {
 class _TempHumButtonState extends State<TempHumButton> {
   Widget build(BuildContext context) {
     bool isWriting = Provider.of<DeviceData>(context).isWriting;
-    return Opacity(
-      opacity: isWriting ? 0.3 : 1,
-      child: InkWell(
-        child: Image.asset(
-          widget.imagePath,
-          width: 110.0,
-          height: 110.0,
+    var height = MediaQuery.of(context).size.height;
+    return LayoutBuilder(builder: (ctx, constraints) {
+      return Opacity(
+        opacity: isWriting ? 0.3 : 1,
+        child: InkWell(
+          child: Image.asset(widget.imagePath,
+              height: height > 650 ? 60.0 : 40.0, fit: BoxFit.fitHeight),
+          onTap: isWriting
+              ? null
+              : () {
+                  _onTap();
+                },
         ),
-        onTap: isWriting
-            ? null
-            : () {
-                _onTap();
-              },
-      ),
-    );
+      );
+    });
   }
 
   _onTap() async {
