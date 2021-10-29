@@ -158,8 +158,10 @@ class DeviceData with ChangeNotifier {
         res = 'Press button with coilAddress $coilAddress failed';
       }
     } catch (e) {
+      if (!e.toString().contains('RangeError')) {
+        res = e.toString() + '. Try to reconnect.';
+      }
       print('debug error on write to coilAddress: $e');
-      res = e.toString() + '. Try to reconnect.';
     }
     _toggleIsWriting();
     return res;
