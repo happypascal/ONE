@@ -14,12 +14,9 @@ class DeviceData with ChangeNotifier {
   String _error = '';
   int _errorCount = 0;
   bool _isWriting = false;
+  bool _isPaused = false;
 
   bool _openCloseState = false;
-
-  //TODO remove: for test and debug
-  int _openCloseResp = 0;
-
   String _humMeasure = 'N/A';
   String _humSet = 'N/A';
   String _tempMeasure = 'N/A';
@@ -29,9 +26,6 @@ class DeviceData with ChangeNotifier {
 
   bool get openCloseState => this._openCloseState;
 
-  //TODO remove: for test and debug
-  int get openCloseResp => this._openCloseResp;
-
   ModbusClient? get client => this._client;
   String get error => this._error;
   String get humMeasure => this._humMeasure;
@@ -39,6 +33,10 @@ class DeviceData with ChangeNotifier {
   String get tempMeasure => this._tempMeasure;
   String get tempSet => this._tempSet;
   bool get isWriting => this._isWriting;
+
+  set isPaused(bool value) {
+    this._isPaused = value;
+  }
 
   Future<String?> readData(BuildContext context) async {
     if (_timer != null && _timer!.isActive) {
@@ -62,6 +60,7 @@ class DeviceData with ChangeNotifier {
       notifyListeners();
       return;
     }
+
     print('debug start reading');
     _error = '';
 
@@ -73,7 +72,11 @@ class DeviceData with ChangeNotifier {
         _error = e.toString();
         if (!_error.contains('RangeError')) {
           _client = null;
-          ScaffoldMessage.showErrorMessage(context, 'periodic read error: $e');
+
+          if (!_isPaused) {
+            ScaffoldMessage.showErrorMessage(
+                context, 'periodic read error: $e');
+          }
         }
         print('debug periodic read error: $e');
       }
@@ -93,11 +96,10 @@ class DeviceData with ChangeNotifier {
   _readRegisters() async {
     try {
       Uint16List registers = await _client!.readHoldingRegisters(0, 51);
-      if (registers != null && registers.isNotEmpty) {
+      if (registers != null && registers.isNotEmpty && !_isPaused) {
         print('debug registers list length: ${registers.length}');
 
         int openCloseState = registers[Const.OPEN_CLOSE_STATE];
-        _openCloseResp = openCloseState;
         _openCloseState = openCloseState == 1 ? true : false;
         print('debug _openCloseState: $_openCloseState');
 
