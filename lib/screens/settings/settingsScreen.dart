@@ -79,8 +79,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    print('debug screen $height');
     return WillPopScope(
       onWillPop: () async {
         return await Dialogs.confirmExitDialog(context);
