@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:humidor_one_by_favre/providers/deviceData.dart';
-import 'package:humidor_one_by_favre/providers/settings.dart';
 import 'package:humidor_one_by_favre/routes/appRoutes.dart';
 import 'package:provider/provider.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator.adaptive(),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+            height: 26.0,
+            width: 26.0,
+            child: CircularProgressIndicator.adaptive(
+              strokeWidth: 1.5,
+            )),
+        SizedBox(height: 10.0),
+        Text(
+          'Connecting',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          maxLines: 1,
+          textDirection: TextDirection.ltr,
+        )
+      ],
     );
   }
 }
