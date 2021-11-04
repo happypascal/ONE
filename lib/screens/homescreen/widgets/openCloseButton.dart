@@ -14,6 +14,7 @@ class OpenCloseButton extends StatelessWidget {
       return Opacity(
         opacity: isWriting ? 0.3 : 1,
         child: InkWell(
+          enableFeedback: false,
           child: Image.asset(
             openCloseState ? Const.IMAGE_CLOSE : Const.IMAGE_OPEN,
             width: constraints.maxHeight * 0.8,

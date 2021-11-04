@@ -193,6 +193,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 CancelButton(),
                                 InkWell(
+                                  enableFeedback: false,
                                   onTap: _saveForm,
                                   child: Image.asset(
                                     'assets/validate.png',

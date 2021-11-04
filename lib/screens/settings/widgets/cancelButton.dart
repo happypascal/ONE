@@ -8,6 +8,7 @@ class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      enableFeedback: false,
       onTap: () {
         if (Provider.of<Connect>(context, listen: false).address != '') {
           Navigator.of(context).pushReplacementNamed(AppRoutes.HOME_SCREEN);

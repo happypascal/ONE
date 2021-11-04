@@ -20,6 +20,7 @@ class _TempHumButtonState extends State<TempHumButton> {
       return Opacity(
         opacity: isWriting ? 0.3 : 1,
         child: InkWell(
+          enableFeedback: false,
           child: Image.asset(widget.imagePath,
               height: height > 650 ? 60.0 : 40.0, fit: BoxFit.fitHeight),
           onTap: isWriting
